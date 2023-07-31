@@ -1,28 +1,19 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-const galleryList = document.querySelector('ul.gallery');
+const galleryEl = document.querySelector('.gallery');
+const galleryMarkup = galleryItems.map(({ preview, original, description }) =>
+  `<a class="gallery__item" href="${original}">
+    <img class="gallery__image" src="${preview}" alt="${description}" />
+    </a>`
+).join('');
 
-const createCardsMarkup = cards => {
-    const { preview, original, description } = cards;
-    return `
-      <a class="gallery__item" href="${original}">
-        <img
-          class="gallery__image"
-          src="${preview}"
-          alt="${description}"
-          title="${description}"
-        />
-      </a>
-  `;
-};
+galleryEl.innerHTML = galleryMarkup;
 
-const createCardsGallery = [...galleryItems].map(createCardsMarkup).join('');
-galleryList.insertAdjacentHTML('beforeend', createCardsGallery);
-
-new SimpleLightbox('.gallery a', {
-    captionDelay: 250,
-    fadeSpeed: 150,
-    animationSlide: false,
+const lightBox = new SimpleLightbox('.gallery a', {
+  captions: true,
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+  scrollZoom: false,
 });
-console.log(galleryItems);
